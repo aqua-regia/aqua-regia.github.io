@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shell Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        /* General Terminal Styles */
+        body {
+            background-color: black;
+            color: #00ff00; /* Default text color */
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Prompt Styles */
+        .prompt {
+            color: #00ffff; /* Bright cyan */
+            font-weight: bold;
+        }
+
+        /* User Input */
+        .command {
+            background: transparent;
+            border: none;
+            color: #ffff00; /* Bright yellow */
+            font-family: 'Fira Code', monospace;
+            font-size: 16px;
+            outline: none;
+            caret-color: #ffff00; /* Yellow cursor */
+        }
+
+        /* System Messages */
+        .system-message {
+            color: #bbbbbb; /* Light gray */
+        }
+
+        pre.output {
+            margin-top: 10px;
+            padding: 5px;
+            border-left: 4px solid #00ff00;
+            background-color: rgba(0, 255, 0, 0.1); /* Slight green background for contrast */
+        }
+
+        /* Command Output */
+        .output {
+            color: #00ff00; /* Bright green */
+        }
+
+        /* Error Messages */
+        .error {
+            color: #ff5555; /* Red */
+            font-weight: bold;
+        }
+
+        /* Themes */
+        body.dark { background: black; color: #00ff00; }
+        body.light { background: white; color: black; }
+        body.matrix { background: black; color: limegreen; text-shadow: 0 0 5px limegreen; }
+        body.cyberpunk { background: #0d0221; color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+    </style>
+</head>
+<body>
+<div id="terminal">
+<pre>
+██     ██ ███████  ██████  ██████  ███    ███ ███████
+██     ██ ██      ██      ██    ██ ████  ████ ██
+██  █  ██ █████   ██      ██    ██ ██ ████ ██ █████
+██ ███ ██ ██      ██      ██    ██ ██  ██  ██ ██
+ ███ ███  ███████  ██████  ██████  ██      ██ ███████
+-------------------------------------------------------
+
+[██████----------------] 20% Initializing...
+[██████████████--------] 50% Loading modules...
+[████████████████████--] 90% Almost there...
+[██████████████████████] 100% Ready!
+
+
+🎼 Explore my music collection
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0wD6DsDAjOEJmUcpVgjiku?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+
+│  Welcome to the Matrix!
+│  Type 'help' for the journey. │
+
+</pre>
+
+</div>
+<div class="input-line">
+    <span class="prompt">⛧──(guest@matrix)-[~/reality]</span><br>
+    <span class="prompt">⛧─$~/</span>
+    <input type="text" class="command" id="commandInput" autofocus>
+</div>
+<script>
+    const terminal = document.getElementById("terminal");
+    const input = document.getElementById("commandInput");
+    let history = [];
+    let historyIndex = 0;
+    let startTime = Date.now();
+    let isLightMode = false;
+
+    function getUptime() {
+        let uptimeMs = Date.now() - startTime;
+        let seconds = Math.floor((uptimeMs / 1000) % 60);
+        let minutes = Math.floor((uptimeMs / (1000 * 60)) % 60);
+        let hours = Math.floor((uptimeMs / (1000 * 60 * 60)) % 24);
+
+        let h = hours.toString().padStart(2, '0');
+        let m = minutes.toString().padStart(2, '0');
+        let s = seconds.toString().padStart(2, '0');
+
+        let asciiTime = `
+    #################################
+    #                               #
+    #      UPTIME: ${h}h ${m}m ${s}s      #
+    #                               #
+    #################################
+    `;
+
+        return asciiTime;
+    }
+
+    function getDate() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+
+// Format the date
+        const day = now.getDate().toString().padStart(2, "0");
+        const month = (now.getMonth() + 1).toString().padStart(2, "0"); // getMonth() returns a zero-based value
+        const year = now.getFullYear();
+
+// Format the date and time in a fun way
+        const dateTimeString = `
+███████████████████████████████████████████████████
+███████████████████████████████████████████████████
+███████████████████████████████████████████████████
+███████████████████████████████████████████████████
+
+              Current Time & Date:
+        ████████████████████████████
+
+        Date: ${day}/${month}/${year}
+        Time: ${hours}:${minutes}:${seconds}
+
+███████████████████████████████████████████████████
+███████████████████████████████████████████████████
+███████████████████████████████████████████████████
+███████████████████████████████████████████████████
+`;
+
+        console.log(dateTimeString);
+        return `\n${dateTimeString}`;
+    }
+
+
+
+    const themes = ["dark", "light", "matrix", "cyberpunk"];
+    let currentThemeIndex = 0;
+
+    function toggleTheme() {
+        // Remove previous theme class
+        document.body.classList.remove(themes[currentThemeIndex]);
+
+        // Cycle to the next theme
+        currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+
+        // Apply new theme class
+        document.body.classList.add(themes[currentThemeIndex]);
+
+        return `Theme changed to ${themes[currentThemeIndex]} mode.`;
+    }
+
+    const friendlyNames = [
+        "Explorer", "Adventurer", "Dreamer", "Wanderer", "Visionary", "Maverick",
+        "Seeker", "Pioneer", "Creator", "Innovator", "Pathfinder", "Rover", "Builder"
+    ];
+
+    function returnGamingHistory() {
+        return `
+🎮 My Game Genre Preferences:
+• 🧟‍♂️ Survival Horror: I thrive on the suspense and adrenaline of Resident Evil and The Last of Us.
+• 🥊 Fighting & Brawlers: Competitive combat and epic battles in Tekken and Marvel Rivals.
+• ⚔️ Action RPGs: Immersive worlds and powerful bosses in Elden Ring, God of War, and Final Fantasy XVI.
+• 🏯 Open World Adventure: Freedom and epic quests in Ghost of Tsushima and Days Gone.
+• 🎭 Story-driven Games: Deep plots and engaging characters in Lies of P and Shadow of Rome.
+• ⚽ Sports: Competitive gameplay in FIFA and Crash Team Racing.
+• 🏆 Epic Boss Battles: Testing my skills in God of War and Elden Ring.
+
+Follow my trophies here
+- https://profile.playstation.com/hassan2151994
+  `
+    }
+
+
+    function getGreeting() {
+        return `Hello ${friendlyNames[Math.floor(Math.random() * friendlyNames.length)]}`;
+    }
+
+    function generateMessage() {
+        const randomName = friendlyNames[Math.floor(Math.random() * friendlyNames.length)];
+
+        return `
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+
+        You are a ${randomName}
+            in my DIGITAL
+              WORLD!!
+
+        Ask again to discover another name!
+    `;
+    }
+
+    const commands = {
+        help: `Available commands:
+- about      Info about me
+- contact    My contact info
+- whoami
+- gaming     Favourite games
+
+- theme      Toggle between themes
+- uptime     Show how long the website has been running
+- date       Display the current system date & time
+- clear      Clear the terminal
+- history    Show command history
+
+Type a command to continue
+`,
+
+        about: `
+  Welcome to My Digital Space! 🚀
+  Version: v1.0.20
+
+  👨‍💻 DeFi Enthusiast & Blockchain Builder
+  I'm deeply involved in DeFi, working on liquid staking, restaking, and all things crypto.
+  I love exploring new protocols, optimizing code, and pushing the boundaries of Web3.
+
+  🏏 Cricket Lover
+  Whether it's watching an intense Test match or playing a quick T20 game,
+  cricket has always been my passion. Some say my analysis of DeFi strategies
+  is as sharp as my cricket game. (Okay, maybe not 😆)
+
+  🏗️ Founding Engineer at CoinSwitch
+  I was part of the early engineering team at CoinSwitch,
+  building scalable systems and contributing to one of India's biggest crypto platforms.
+  From zero to 30 million users, I witnessed the explosive growth firsthand.
+
+  🎮 Gaming Aficionado
+  The Witcher 3 and Resident Evil 4 are two of my all-time favorite games.
+  Nothing beats exploring vast open worlds, fighting monsters, and uncovering deep lore.
+
+  🐱 Cat Dad
+  I have two amazing cats—one Persian and one indie.
+  They love to keep me company while I work,
+  and yes, they think they own my desk.
+`,
+        contact: "\n  📬 Want to Connect?\n  - LinkedIn: https://www.linkedin.com/in/syedhassanashraf/\n  - GitHub: https://github.com/aqua-regia\n  - Email: mailto:hassanashraf8888@gmail.com  ",
+        clear: () => { terminal.innerHTML = ""; return ""; },
+        history: () => history.join("\n"),
+        whoami: generateMessage,
+        uptime: getUptime,
+        date: getDate,
+        theme: toggleTheme,
+        gaming: returnGamingHistory,
+        hello: getGreeting,
+    };
+
+    document.addEventListener("click", function () {
+        document.getElementById("commandInput").focus();
+    });
+
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            let command = input.value.trim();
+            history.push(command);
+            historyIndex = history.length;
+            input.value = "";
+
+            let output = commands[command] || `<span class="error">Command not found: ${command}</span>`;
+            if (typeof output === 'function') output = output();
+
+            terminal.innerHTML += `
+            <div class="input-line">
+                <span class="prompt">⛧──(guest@matrix)-[~/reality]</span>
+                <span class="prompt">⛧─$ <span class="command-text">${command}</span></span>
+            </div>
+            <pre class="output">${output}</pre>
+        `;
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    });
+</script>
+</body>
+</html>
