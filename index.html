@@ -1,66 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Shell Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
-    <style>
-        /* General Terminal Styles */
-        body {
-            background-color: black;
-            color: #00ff00; /* Default text color */
-            font-family: 'Fira Code', monospace;
-        }
+  <title>Shell Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    /* General Terminal Styles */
+    body {
+      background-color: black;
+      color: #00ccff; /* Default text color */
+      font-family: 'Fira Code', monospace;
+    }
 
-        /* Prompt Styles */
-        .prompt {
-            color: #00ffff; /* Bright cyan */
-            font-weight: bold;
-        }
+    /* Prompt Styles */
+    .prompt {
+      color: #00ffff; /* Bright cyan */
+      font-weight: bold;
+    }
 
-        /* User Input */
-        .command {
-            background: transparent;
-            border: none;
-            color: #ffff00; /* Bright yellow */
-            font-family: 'Fira Code', monospace;
-            font-size: 16px;
-            outline: none;
-            caret-color: #ffff00; /* Yellow cursor */
-        }
+    /* User Input */
+    .command {
+      background: transparent;
+      border: none;
+      color: #ffff00; /* Bright yellow */
+      font-family: 'Fira Code', monospace;
+      font-size: 16px;
+      outline: none;
+      caret-color: #ffff00; /* Yellow cursor */
+    }
 
-        /* System Messages */
-        .system-message {
-            color: #bbbbbb; /* Light gray */
-        }
+    /* System Messages */
+    .system-message {
+      color: #bbbbbb; /* Light gray */
+    }
 
-        pre.output {
-            margin-top: 10px;
-            padding: 5px;
-            border-left: 4px solid #00ff00;
-            background-color: rgba(0, 255, 0, 0.1); /* Slight green background for contrast */
-        }
+    pre.output {
+      margin-top: 10px;
+      padding: 5px;
+      border-left: 4px solid #00ff00;
+      background-color: rgba(0, 255, 0, 0.1); /* Slight green background for contrast */
+    }
 
-        /* Command Output */
-        .output {
-            color: #00ff00; /* Bright green */
-        }
+    /* Command Output */
+    .output {
+      color: #00ff00; /* Bright green */
+    }
 
-        /* Error Messages */
-        .error {
-            color: #ff5555; /* Red */
-            font-weight: bold;
-        }
+    /* Error Messages */
+    .error {
+      color: #ff5555; /* Red */
+      font-weight: bold;
+    }
 
-        /* Themes */
-        body.dark { background: black; color: #00ff00; }
-        body.light { background: white; color: black; }
-        body.matrix { background: black; color: limegreen; text-shadow: 0 0 5px limegreen; }
-        body.cyberpunk { background: #0d0221; color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
-    </style>
+    /* Themes */
+    body.dark { background: black; color: #00ff00; }
+    body.light { background: white; color: black; }
+    body.matrix { background: black; color: limegreen; text-shadow: 0 0 5px limegreen; }
+    body.cyberpunk { background: #0d0221; color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+    /* Style for iframe container */
+    .iframe-container {
+      display: none; /* Initially hidden */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 12px;
+      z-index: 1000;
+      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+      max-width: 500px;
+      width: 90%;
+    }
+
+    /* Background overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    /* Close button */
+    .close-btn {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: black;
+      color: white;
+      border: 2px solid white;
+      padding: 8px 12px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .close-btn:hover {
+      background: red;
+      border-color: red;
+    }
+
+    /* Responsive iFrame */
+    iframe {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
 <div id="terminal">
@@ -77,12 +132,6 @@
 [████████████████████--] 90% Almost there...
 [██████████████████████] 100% Ready!
 
-
-🎼 Explore my music collection
-
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0wD6DsDAjOEJmUcpVgjiku?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-
 │  Welcome to the Matrix!
 │  Type 'help' for the journey. │
 
@@ -90,29 +139,39 @@
 
 </div>
 <div class="input-line">
-    <span class="prompt">⛧──(guest@matrix)-[~/reality]</span><br>
-    <span class="prompt">⛧─$~/</span>
-    <input type="text" class="command" id="commandInput" autofocus>
+  <span class="prompt">⛧──(guest@matrix)-[~/reality]</span><br>
+  <span class="prompt">⛧─$~/</span>
+  <input type="text" class="command" id="commandInput" autofocus>
+</div>
+<div class="overlay" id="overlay" onclick="hideIframe()"></div>
+
+<!-- iFrame Container -->
+<div class="iframe-container" id="iframeContainer">
+  <button class="close-btn" onclick="hideIframe()">✖</button>
+  <iframe id="spotifyIframe" src="https://open.spotify.com/embed/playlist/0wD6DsDAjOEJmUcpVgjiku?utm_source=generator&theme=0"
+          frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+  </iframe>
 </div>
 <script>
-    const terminal = document.getElementById("terminal");
-    const input = document.getElementById("commandInput");
-    let history = [];
-    let historyIndex = 0;
-    let startTime = Date.now();
-    let isLightMode = false;
+  const terminal = document.getElementById("terminal");
+  const input = document.getElementById("commandInput");
+  let history = [];
+  let historyIndex = 0;
+  let startTime = Date.now();
+  let isLightMode = false;
 
-    function getUptime() {
-        let uptimeMs = Date.now() - startTime;
-        let seconds = Math.floor((uptimeMs / 1000) % 60);
-        let minutes = Math.floor((uptimeMs / (1000 * 60)) % 60);
-        let hours = Math.floor((uptimeMs / (1000 * 60 * 60)) % 24);
+  function getUptime() {
+    let uptimeMs = Date.now() - startTime;
+    let seconds = Math.floor((uptimeMs / 1000) % 60);
+    let minutes = Math.floor((uptimeMs / (1000 * 60)) % 60);
+    let hours = Math.floor((uptimeMs / (1000 * 60 * 60)) % 24);
 
-        let h = hours.toString().padStart(2, '0');
-        let m = minutes.toString().padStart(2, '0');
-        let s = seconds.toString().padStart(2, '0');
+    let h = hours.toString().padStart(2, '0');
+    let m = minutes.toString().padStart(2, '0');
+    let s = seconds.toString().padStart(2, '0');
 
-        let asciiTime = `
+    let asciiTime = `
     #################################
     #                               #
     #      UPTIME: ${h}h ${m}m ${s}s      #
@@ -120,22 +179,22 @@
     #################################
     `;
 
-        return asciiTime;
-    }
+    return asciiTime;
+  }
 
-    function getDate() {
-        const now = new Date();
-        const hours = now.getHours().toString().padStart(2, "0");
-        const minutes = now.getMinutes().toString().padStart(2, "0");
-        const seconds = now.getSeconds().toString().padStart(2, "0");
+  function getDate() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const seconds = now.getSeconds().toString().padStart(2, "0");
 
 // Format the date
-        const day = now.getDate().toString().padStart(2, "0");
-        const month = (now.getMonth() + 1).toString().padStart(2, "0"); // getMonth() returns a zero-based value
-        const year = now.getFullYear();
+    const day = now.getDate().toString().padStart(2, "0");
+    const month = (now.getMonth() + 1).toString().padStart(2, "0"); // getMonth() returns a zero-based value
+    const year = now.getFullYear();
 
 // Format the date and time in a fun way
-        const dateTimeString = `
+    const dateTimeString = `
 ███████████████████████████████████████████████████
 ███████████████████████████████████████████████████
 ███████████████████████████████████████████████████
@@ -153,35 +212,57 @@
 ███████████████████████████████████████████████████
 `;
 
-        console.log(dateTimeString);
-        return `\n${dateTimeString}`;
-    }
+    console.log(dateTimeString);
+    return `\n${dateTimeString}`;
+  }
 
+  function showIframe() {
+    document.getElementById("iframeContainer").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("spotifyIframe").src = "https://open.spotify.com/embed/playlist/0wD6DsDAjOEJmUcpVgjiku?utm_source=generator&theme=0";
+  }
 
+  function hideIframe() {
+    document.getElementById("iframeContainer").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("spotifyIframe").src = ""; // Stops playback
+  }
 
-    const themes = ["dark", "light", "matrix", "cyberpunk"];
-    let currentThemeIndex = 0;
+  const themes = [
+    "dark", "light", "matrix", "cyberpunk", "neon-blue",
+    "amber-retro", "ghost", "crimson", "solarized", "glitch"
+  ];
 
-    function toggleTheme() {
-        // Remove previous theme class
-        document.body.classList.remove(themes[currentThemeIndex]);
+  let currentThemeIndex = 0;
 
-        // Cycle to the next theme
-        currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+  // Possible text colors (random selection)
+  const textColors = ["#00ff00", "#00ffff", "#ffff00", "#ff00ff", "#ffaa00", "#ff5555"];
 
-        // Apply new theme class
-        document.body.classList.add(themes[currentThemeIndex]);
+  function toggleTheme() {
+    // Remove previous theme class
+    document.body.classList.remove(themes[currentThemeIndex]);
 
-        return `Theme changed to ${themes[currentThemeIndex]} mode.`;
-    }
+    // Cycle to the next theme
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
 
-    const friendlyNames = [
-        "Explorer", "Adventurer", "Dreamer", "Wanderer", "Visionary", "Maverick",
-        "Seeker", "Pioneer", "Creator", "Innovator", "Pathfinder", "Rover", "Builder"
-    ];
+    // Apply new theme class
+    document.body.classList.add(themes[currentThemeIndex]);
 
-    function returnGamingHistory() {
-        return `
+    // Randomize text colors for key elements
+    document.querySelectorAll(".prompt, .command, .system-message, .output").forEach(element => {
+      element.style.color = textColors[Math.floor(Math.random() * textColors.length)];
+    });
+
+    return `🎨 Theme changed to ${themes[currentThemeIndex]} mode.`;
+  }
+
+  const friendlyNames = [
+    "Explorer", "Adventurer", "Dreamer", "Wanderer", "Visionary", "Maverick",
+    "Seeker", "Pioneer", "Creator", "Innovator", "Pathfinder", "Rover", "Builder"
+  ];
+
+  function returnGamingHistory() {
+    return `
 🎮 My Game Genre Preferences:
 • 🧟‍♂️ Survival Horror: I thrive on the suspense and adrenaline of Resident Evil and The Last of Us.
 • 🥊 Fighting & Brawlers: Competitive combat and epic battles in Tekken and Marvel Rivals.
@@ -194,17 +275,17 @@
 Follow my trophies here
 - https://profile.playstation.com/hassan2151994
   `
-    }
+  }
 
 
-    function getGreeting() {
-        return `Hello ${friendlyNames[Math.floor(Math.random() * friendlyNames.length)]}`;
-    }
+  function getGreeting() {
+    return `Hello ${friendlyNames[Math.floor(Math.random() * friendlyNames.length)]}`;
+  }
 
-    function generateMessage() {
-        const randomName = friendlyNames[Math.floor(Math.random() * friendlyNames.length)];
+  function generateMessage() {
+    const randomName = friendlyNames[Math.floor(Math.random() * friendlyNames.length)];
 
-        return `
+    return `
         ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
         ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
         ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
@@ -224,25 +305,29 @@ Follow my trophies here
 
         Ask again to discover another name!
     `;
-    }
+  }
 
-    const commands = {
-        help: `Available commands:
-- about      Info about me
-- contact    My contact info
-- whoami
-- gaming     Favourite games
+  const commands = {
+    help: `Available commands:
+Type a command below to explore ⬇️
 
-- theme      Toggle between themes
-- uptime     Show how long the website has been running
-- date       Display the current system date & time
-- clear      Clear the terminal
-- history    Show command history
+✨ Available Commands:
+------------------------------------
+🧑‍💻 about      → Learn more about me
+📞 contact     → My contact details
+🕵️ whoami
+🎮 gaming      → My all-time favorite games
 
-Type a command to continue
+🎨 theme      → Toggle between various themes
+⏳ uptime     → See how long this portal has been running
+📅 date       → Get the current date & time
+🧹 clear      → Wipe the screen clean
+📜 history    → View your past commands
+
+💡 Tip: Type a command and press **Enter** to explore! 😎
 `,
 
-        about: `
+    about: `
   Welcome to My Digital Space! 🚀
   Version: v1.0.20
 
@@ -269,41 +354,42 @@ Type a command to continue
   They love to keep me company while I work,
   and yes, they think they own my desk.
 `,
-        contact: "\n  📬 Want to Connect?\n  - LinkedIn: https://www.linkedin.com/in/syedhassanashraf/\n  - GitHub: https://github.com/aqua-regia\n  - Email: mailto:hassanashraf8888@gmail.com  ",
-        clear: () => { terminal.innerHTML = ""; return ""; },
-        history: () => history.join("\n"),
-        whoami: generateMessage,
-        uptime: getUptime,
-        date: getDate,
-        theme: toggleTheme,
-        gaming: returnGamingHistory,
-        hello: getGreeting,
-    };
+    contact: "\n  📬 Want to Connect?\n  - LinkedIn: https://www.linkedin.com/in/syedhassanashraf/\n  - GitHub: https://github.com/aqua-regia\n  - Email: mailto:hassanashraf8888@gmail.com  ",
+    clear: () => { terminal.innerHTML = ""; return ""; },
+    history: () => history.join("\n"),
+    whoami: generateMessage,
+    uptime: getUptime,
+    date: getDate,
+    theme: toggleTheme,
+    gaming: returnGamingHistory,
+    hello: getGreeting,
+    music: showIframe,
+  };
 
-    document.addEventListener("click", function () {
-        document.getElementById("commandInput").focus();
-    });
+  document.addEventListener("click", function () {
+    document.getElementById("commandInput").focus();
+  });
 
-    input.addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            let command = input.value.trim();
-            history.push(command);
-            historyIndex = history.length;
-            input.value = "";
+  input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      let command = input.value.trim();
+      history.push(command);
+      historyIndex = history.length;
+      input.value = "";
 
-            let output = commands[command] || `<span class="error">Command not found: ${command}</span>`;
-            if (typeof output === 'function') output = output();
+      let output = commands[command] || `<span class="error">Command not found: ${command}</span>`;
+      if (typeof output === 'function') output = output();
 
-            terminal.innerHTML += `
+      terminal.innerHTML += `
             <div class="input-line">
                 <span class="prompt">⛧──(guest@matrix)-[~/reality]</span>
                 <span class="prompt">⛧─$ <span class="command-text">${command}</span></span>
             </div>
             <pre class="output">${output}</pre>
         `;
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-    });
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+  });
 </script>
 </body>
 </html>
